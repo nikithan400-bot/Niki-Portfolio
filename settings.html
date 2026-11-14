@@ -1,20 +1,360 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings | Nikitha Portfolio</title>
 
-    <!-- Font Awesome Icons -->
+    <!-- Font Awesome -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <link rel="stylesheet" href="style.css">
+
+    <!-- Settings Page Styling -->
+    <style>
+        :root {
+            --settings-accent: #8b5cf6;
+            --settings-bg: #f5f3ff;
+            --settings-card: #ffffff;
+            --settings-text: #25213b;
+            --settings-muted: #77738a;
+        }
+
+        .settings-page {
+            background: var(--settings-bg);
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .settings-section {
+            padding: 55px 7%;
+            min-height: 100vh;
+        }
+
+        .settings-container {
+            max-width: 1050px;
+            margin: auto;
+        }
+
+        .settings-heading {
+            margin-bottom: 30px;
+        }
+
+        .settings-heading h1 {
+            font-size: 34px;
+            margin-bottom: 8px;
+            color: var(--settings-text);
+        }
+
+        .settings-heading p {
+            color: var(--settings-muted);
+            font-size: 15px;
+        }
+
+        .settings-welcome {
+            background: linear-gradient(120deg, var(--settings-accent), #5b4bc4);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(91, 75, 196, 0.18);
+        }
+
+        .settings-welcome h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .settings-welcome p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .welcome-icon {
+            font-size: 55px;
+            opacity: 0.85;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        .settings-card {
+            background: var(--settings-card);
+            color: var(--settings-text);
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 5px 25px rgba(40, 30, 80, 0.06);
+            border: 1px solid rgba(130, 110, 180, 0.12);
+            transition: transform 0.25s, background 0.3s;
+        }
+
+        .settings-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .settings-card h2 {
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        .settings-card .card-description {
+            color: var(--settings-muted);
+            font-size: 13px;
+            margin-bottom: 22px;
+        }
+
+        .settings-card-heading {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 18px;
+        }
+
+        .settings-icon {
+            width: 43px;
+            height: 43px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: color-mix(in srgb, var(--settings-accent) 12%, white);
+            color: var(--settings-accent);
+            font-size: 19px;
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(120, 110, 140, 0.15);
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info strong {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .setting-info small {
+            color: var(--settings-muted);
+            font-size: 12px;
+        }
+
+        .switch {
+            position: relative;
+            width: 46px;
+            height: 25px;
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch-slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #c9c5d3;
+            border-radius: 30px;
+            transition: 0.3s;
+        }
+
+        .switch-slider:before {
+            content: "";
+            position: absolute;
+            width: 19px;
+            height: 19px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .switch input:checked + .switch-slider {
+            background: var(--settings-accent);
+        }
+
+        .switch input:checked + .switch-slider:before {
+            transform: translateX(21px);
+        }
+
+        .color-options {
+            display: flex;
+            gap: 13px;
+            margin-top: 15px;
+        }
+
+        .color-choice {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 3px solid white;
+            outline: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .color-choice.active {
+            outline-color: var(--settings-text);
+        }
+
+        .purple { background: #8b5cf6; }
+        .blue { background: #3b82f6; }
+        .pink { background: #ec4899; }
+        .green { background: #10b981; }
+        .orange { background: #f97316; }
+
+        .preview-box {
+            padding: 17px;
+            background: var(--settings-bg);
+            border-radius: 13px;
+            margin-top: 15px;
+        }
+
+        .preview-box span {
+            display: inline-block;
+            padding: 8px 16px;
+            color: white;
+            background: var(--settings-accent);
+            border-radius: 8px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .settings-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 13px;
+            margin-top: 28px;
+        }
+
+        .settings-btn {
+            border: none;
+            border-radius: 9px;
+            padding: 12px 23px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .save-btn {
+            background: var(--settings-accent);
+            color: white;
+        }
+
+        .save-btn:hover {
+            opacity: 0.85;
+            transform: translateY(-2px);
+        }
+
+        .reset-btn {
+            background: var(--settings-card);
+            color: var(--settings-text);
+            border: 1px solid rgba(120, 110, 140, 0.25);
+        }
+
+        .settings-message {
+            text-align: right;
+            margin-top: 12px;
+            color: var(--settings-accent);
+            font-size: 13px;
+            min-height: 18px;
+        }
+
+        /* Dark Mode */
+        .settings-page.settings-dark {
+            --settings-bg: #171525;
+            --settings-card: #242137;
+            --settings-text: #f4f0ff;
+            --settings-muted: #b4aec8;
+        }
+
+        .settings-dark .settings-icon {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .settings-dark .preview-box {
+            background: #302b46;
+        }
+
+        .settings-dark .reset-btn {
+            border-color: #49435e;
+        }
+
+        .settings-dark .color-choice {
+            border-color: #242137;
+        }
+
+        .reduce-motion *,
+        .reduce-motion *::before,
+        .reduce-motion *::after {
+            animation: none !important;
+            transition: none !important;
+        }
+
+        @media(max-width: 750px) {
+            .settings-section {
+                padding: 35px 5%;
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .settings-welcome {
+                padding: 23px;
+            }
+
+            .settings-welcome h2 {
+                font-size: 20px;
+            }
+
+            .welcome-icon {
+                font-size: 38px;
+            }
+
+            .settings-heading h1 {
+                font-size: 28px;
+            }
+        }
+
+        @media(max-width: 450px) {
+            .settings-actions {
+                flex-direction: column;
+            }
+
+            .settings-btn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
-<body>
+<body class="settings-page">
+
 <!-- ================= NAVBAR ================= -->
 <header class="navbar">
     <div class="snow-container"></div>
+
     <div class="logo">
         <img src="portfolio logo.png" alt="My Portfolio Logo" class="logo-img">
         <span>My Portfolio</span>
@@ -34,7 +374,9 @@
 
         <div class="profile-dropdown" id="profileDropdown">
             <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
-            <a href="settings.html" class="active"><i class="fas fa-cog"></i> Settings</a>
+            <a href="settings.html" class="active">
+                <i class="fas fa-cog"></i> Settings
+            </a>
             <a href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </div>
@@ -42,39 +384,293 @@
 
 <!-- ================= SETTINGS SECTION ================= -->
 <section class="settings-section">
-    <div class="settings-container center">
-        <h1>Settings</h1>
-        <p>Manage your account and preferences here.</p>
+    <div class="settings-container">
 
-        <div class="settings-card">
-            <h2>Account Settings</h2>
-            <label for="username">Username:</label>
-            <input type="text" id="username" placeholder="Enter your username">
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" placeholder="Enter your email">
-
-            <label for="password">Password:</label>
-            <input type="password" id="password" placeholder="Enter new password">
-
-            <button class="btn primary">Update Account</button>
+        <div class="settings-heading">
+            <h1><i class="fas fa-sliders-h"></i> Settings</h1>
+            <p>Customize your portfolio experience and personal preferences.</p>
         </div>
 
-        <div class="settings-card">
-            <h2>Preferences</h2>
-            <label>
-                <input type="checkbox" checked> Enable Notifications
-            </label>
-            <label>
-                <input type="checkbox"> Dark Mode
-            </label>
-
-            <button class="btn primary">Save Preferences</button>
+        <!-- Welcome Banner -->
+        <div class="settings-welcome">
+            <div>
+            <h2>Make it your style✨</h2>
+                <p>         Personalize the appearance and experience of your portfolio.</p>
+            </div>
+            <div class="welcome-icon">
+                <i class="fas fa-palette"></i>
+            </div>
         </div>
+
+        <div class="settings-grid">
+
+            <!-- Appearance -->
+            <div class="settings-card">
+                <div class="settings-card-heading">
+                    <div class="settings-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <div>
+                        <h2>Appearance</h2>
+                        <p class="card-description">Choose how your page looks.</p>
+                    </div>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>Dark Mode</strong>
+                        <small>Use a darker settings page.</small>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="darkMode">
+                        <span class="switch-slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>Reduce Animations</strong>
+                        <small>Reduce movement and transitions.</small>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="reduceMotion">
+                        <span class="switch-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Accent Colour -->
+            <div class="settings-card">
+                <div class="settings-card-heading">
+                    <div class="settings-icon">
+                        <i class="fas fa-fill-drip"></i>
+                    </div>
+                    <div>
+                        <h2>Theme Colour</h2>
+                        <p class="card-description">Select your preferred accent colour.</p>
+                    </div>
+                </div>
+
+                <div class="setting-info">
+                    <strong>Choose Accent Colour</strong>
+                    <small>Try different colours for your settings page.</small>
+                </div>
+
+                <div class="color-options">
+                    <button class="color-choice purple active" data-color="#8b5cf6" aria-label="Purple"></button>
+                    <button class="color-choice blue" data-color="#3b82f6" aria-label="Blue"></button>
+                    <button class="color-choice pink" data-color="#ec4899" aria-label="Pink"></button>
+                    <button class="color-choice green" data-color="#10b981" aria-label="Green"></button>
+                    <button class="color-choice orange" data-color="#f97316" aria-label="Orange"></button>
+                </div>
+
+                <div class="preview-box">
+                    <strong>Live Preview</strong>
+                    <br>
+                    <span>My Portfolio</span>
+                </div>
+            </div>
+
+            <!-- Effects -->
+            <div class="settings-card">
+                <div class="settings-card-heading">
+                    <div class="settings-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <div>
+                        <h2>Visual Effects</h2>
+                        <p class="card-description">Control decorative effects.</p>
+                    </div>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>Snow Effect</strong>
+                        <small>Show or hide the navbar snow effect.</small>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="snowEffect" checked>
+                        <span class="switch-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Profile Overview -->
+            <div class="settings-card">
+                <div class="settings-card-heading">
+                    <div class="settings-icon">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div>
+                        <h2>Profile Overview</h2>
+                        <p class="card-description">Portfolio information.</p>
+                    </div>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>Name</strong>
+                        <small>M. Nikitha</small>
+                    </div>
+                    <i class="fas fa-user" style="color:var(--settings-accent)"></i>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>Career Interest</strong>
+                        <small>Full Stack Development</small>
+                    </div>
+                    <i class="fas fa-code" style="color:var(--settings-accent)"></i>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>Portfolio Status</strong>
+                        <small>Personal Portfolio Website</small>
+                    </div>
+                    <i class="fas fa-check-circle" style="color:#10b981"></i>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Buttons -->
+        <div class="settings-actions">
+            <button class="settings-btn reset-btn" id="resetSettings">
+                <i class="fas fa-undo"></i> Reset Settings
+            </button>
+
+            <button class="settings-btn save-btn" id="saveSettings">
+                <i class="fas fa-save"></i> Save Preferences
+            </button>
+        </div>
+
+        <p class="settings-message" id="settingsMessage"></p>
+
     </div>
 </section>
 
-<!-- ================= JS ================= -->
+<!-- ================= JAVASCRIPT ================= -->
 <script src="script.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const darkMode = document.getElementById("darkMode");
+    const reduceMotion = document.getElementById("reduceMotion");
+    const snowEffect = document.getElementById("snowEffect");
+    const colorButtons = document.querySelectorAll(".color-choice");
+    const message = document.getElementById("settingsMessage");
+
+    const defaultSettings = {
+        dark: false,
+        motion: false,
+        snow: true,
+        color: "#8b5cf6"
+    };
+
+    let selectedColor = defaultSettings.color;
+
+    function applySettings(settings) {
+        document.body.classList.toggle("settings-dark", settings.dark);
+        document.body.classList.toggle("reduce-motion", settings.motion);
+
+        document.documentElement.style.setProperty(
+            "--settings-accent", settings.color
+        );
+
+        const snow = document.querySelectorAll(".snow-container");
+        snow.forEach(element => {
+            element.style.display = settings.snow ? "" : "none";
+        });
+
+        darkMode.checked = settings.dark;
+        reduceMotion.checked = settings.motion;
+        snowEffect.checked = settings.snow;
+
+        selectedColor = settings.color;
+
+        colorButtons.forEach(button => {
+            button.classList.toggle(
+                "active",
+                button.dataset.color === settings.color
+            );
+        });
+    }
+
+    function getCurrentSettings() {
+        return {
+            dark: darkMode.checked,
+            motion: reduceMotion.checked,
+            snow: snowEffect.checked,
+            color: selectedColor
+        };
+    }
+
+    // Load saved preferences
+    try {
+        const saved = JSON.parse(localStorage.getItem("nikithaSettings"));
+        applySettings(saved ? {...defaultSettings, ...saved} : defaultSettings);
+    } catch (error) {
+        applySettings(defaultSettings);
+    }
+
+    // Live preview
+    darkMode.addEventListener("change", function () {
+        document.body.classList.toggle("settings-dark", this.checked);
+    });
+
+    reduceMotion.addEventListener("change", function () {
+        document.body.classList.toggle("reduce-motion", this.checked);
+    });
+
+    snowEffect.addEventListener("change", function () {
+        document.querySelectorAll(".snow-container").forEach(element => {
+            element.style.display = this.checked ? "" : "none";
+        });
+    });
+
+    colorButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            selectedColor = this.dataset.color;
+
+            document.documentElement.style.setProperty(
+                "--settings-accent", selectedColor
+            );
+
+            colorButtons.forEach(item => item.classList.remove("active"));
+            this.classList.add("active");
+        });
+    });
+
+    // Save preferences
+    document.getElementById("saveSettings").addEventListener("click", function () {
+        try {
+            localStorage.setItem(
+                "nikithaSettings",
+                JSON.stringify(getCurrentSettings())
+            );
+
+            message.textContent = "✓ Your preferences have been saved!";
+        } catch (error) {
+            message.textContent = "Unable to save preferences in this browser.";
+        }
+    });
+
+    // Reset preferences
+    document.getElementById("resetSettings").addEventListener("click", function () {
+        applySettings(defaultSettings);
+
+        try {
+            localStorage.removeItem("nikithaSettings");
+            message.textContent = "Settings restored to default!";
+        } catch (error) {
+            message.textContent = "Unable to reset saved preferences.";
+        }
+    });
+
+});
+</script>
+
 </body>
 </html>
